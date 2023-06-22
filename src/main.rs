@@ -1,6 +1,11 @@
 use warp::Filter;
 use futures_util::{FutureExt, StreamExt};
 
+mod utils;
+mod services;
+
+
+
 #[tokio::main]
 async fn main() {
 
@@ -15,8 +20,13 @@ async fn main() {
                 match message {
                     Ok(msg) => {
                         let content = msg.to_str().unwrap_or("");
+                        let event: services::event::Event  = serde_json::from_str(content).unwrap();
 
-                        println!("Received message: {:?}", content);
+                        println!("Received message: {:?}", event.message);
+                        println!("Received message: {:?}", event.topic);
+                        println!("Received message: {:?}", event.user_uuid);
+
+        
                     }
                     Err(e) => {
                         eprintln!("websocket error: {:?}", e);
