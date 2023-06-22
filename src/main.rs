@@ -14,7 +14,9 @@ async fn main() {
 
                 match message {
                     Ok(msg) => {
-                        println!("Received message: {:?}", msg::text());
+                        let content = msg.to_str().unwrap_or("");
+
+                        println!("Received message: {:?}", content);
                     }
                     Err(e) => {
                         eprintln!("websocket error: {:?}", e);
